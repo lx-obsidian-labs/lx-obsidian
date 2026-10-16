@@ -1,7 +1,7 @@
 ---
 name: lx-swiftui-tells
 description: The SwiftUI-native anti-"AI slop" tell catalog (~70 tells). Use when reviewing or writing SwiftUI (iOS/iPadOS/macOS/watchOS) and asking "why does this look AI-generated / like a default SwiftUI app / like an untouched Xcode preview", when choosing color, type, spacing, shape, motion, or component states in SwiftUI, or when you need the fix for a specific generated-looking pattern. Distinct from web and Flutter anti-slop lists because SwiftUI's default-look tells are different. Pairs with lx-obsidian (the process) and lx-slop-guard's SwiftLint config (the detector).
-license: MIT
+license: Proprietary
 ---
 
 # The SwiftUI tell catalog

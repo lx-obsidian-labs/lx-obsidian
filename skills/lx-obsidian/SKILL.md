@@ -1,7 +1,7 @@
 ---
 name: lx-obsidian
 description: Design distinctive, human-crafted UI for any framework — Flutter, web (React/Next, Vue/Svelte, HTML/CSS), React Native, SwiftUI, and Jetpack Compose — that does not read as AI-generated. Use when building or reshaping a screen, choosing a visual direction, setting up design tokens, or when an app "looks default", "looks Material/stock", or "looks AI-generated". Runs a positive-first workflow (identify stack, design read, surface contract, tokens, build, cross-platform pass, verify) and routes to the framework tell packs (lx-flutter-tells, lx-web-tells, lx-react-native-tells, lx-swiftui-tells, lx-compose-tells), lx-cross-platform, lx-slop-guard, and lx-design-verify.
-license: MIT
+license: Proprietary
 ---
 
 # LX Obsidian — the conductor

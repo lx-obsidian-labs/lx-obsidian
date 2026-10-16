@@ -10,5 +10,8 @@
   "peerDependencies": { "eslint": ">=9.0.0" },
   "devDependencies": { "eslint": "^9.39.5" },
   "keywords": ["eslint", "eslintplugin", "linter", "design", "ui", "react", "react-native"],
-  "license": "MIT"
+  "author": "LX Obsidian",
+  "license": "SEE LICENSE IN LICENSE",
+  "homepage": "https://github.com/lx-obsidian/lx-obsidian",
+  "repository": "https://github.com/lx-obsidian/lx-obsidian"
 }

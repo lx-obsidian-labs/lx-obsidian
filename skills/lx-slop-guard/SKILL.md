@@ -1,7 +1,7 @@
 ---
 name: lx-slop-guard
 description: Detect the code-certain "AI slop" tells automatically across stacks — Dart/Flutter (analyzer plugin), JS/TS/JSX/TSX/React/Vue/Svelte/RN (ESLint plugin), CSS/SCSS (Stylelint plugin), SwiftUI (SwiftLint config), and Compose (detekt config). Use when you want to lint rather than review by eye, when wiring detectors into CI, when interpreting findings, or when asking "which of these are machine-detectable". Complements the framework tell packs and lx-obsidian (the process).
-license: MIT
+license: Proprietary
 ---
 
 # Slop guard

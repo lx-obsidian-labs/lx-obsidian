@@ -4,15 +4,20 @@ const FRAMEWORK_SWATCH = /\b(indigo|blue|purple|violet|cyan|teal|amber|pink|emer
 const REFLEX_FONT = /\b(Inter|Roboto|Space Grotesk|Geist|Poppins|Montserrat)\b/i;
 
 function isEmoji(codePoint) {
+  if (!Number.isFinite(codePoint)) return false;
+  const cp = Number(codePoint);
   return (
-    (codePoint >= 0x1f000 && codePoint <= 0x1faff) ||
-    (codePoint >= 0x2600 && codePoint <= 0x27bf) ||
-    (codePoint >= 0x2b00 && codePoint <= 0x2bff) ||
-    (codePoint >= 0x2190 && codePoint <= 0x21ff) ||
-    (codePoint >= 0x1f1e6 && codePoint <= 0x1f1ff) ||
-    (codePoint >= 0xfe00 && codePoint <= 0xfe0f) ||
-    codePoint === 0x2764 ||
-    codePoint === 0x2049
+    (cp >= 0x1f000 && cp <= 0x1faff) ||
+    (cp >= 0x2600 && cp <= 0x27bf) ||
+    (cp >= 0x2b00 && cp <= 0x2bff) ||
+    (cp >= 0x2190 && cp <= 0x21ff) ||
+    (cp >= 0x1f1e6 && cp <= 0x1f1ff) ||
+    (cp >= 0xfe00 && cp <= 0xfe0f) ||
+    (cp >= 0x1f600 && cp <= 0x1f64f) ||
+    (cp >= 0x1f680 && cp <= 0x1f6ff) ||
+    (cp >= 0x2700 && cp <= 0x27bf) ||
+    cp === 0x2764 ||
+    cp === 0x2049
   );
 }
 
@@ -22,9 +27,7 @@ function isEmojiOnly(str) {
   let has = false;
   for (const ch of text) {
     const cp = ch.codePointAt(0) || 0;
-    if (codePointIsSpace(codePoint)) {
-      continue;
-    }
+    if (cp === 0x20 || cp === 0x200d) continue;
     if (isEmoji(cp)) {
       has = true;
       continue;
@@ -32,10 +35,6 @@ function isEmojiOnly(str) {
     return false;
   }
   return has;
-
-  function codePointIsSpace(cp) {
-    return codePoint === 0x20 || codePoint === 0x200d;
-  }
 }
 
 function stringValue(node) {

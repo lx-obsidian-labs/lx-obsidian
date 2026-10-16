@@ -20,13 +20,24 @@ Contents
 
 ## 1. Setup
 
+Launch the real target. Examples per stack:
+
 ```powershell
-flutter pub get
-dart analyze lib
-flutter run -d chrome            # web
-flutter run                      # android device/emulator
+# Flutter
+flutter pub get; dart analyze lib; flutter run -d chrome; flutter run
+
+# Web (Next / Vite / SvelteKit)
+npm install; npm run dev
+
+# React Native / Expo
+npx expo start            # press w for web, i/a for device
+
+# SwiftUI — run the scheme in Xcode (iPhone + iPad + macOS if it ships)
+# Compose — run on emulator/device; run the desktop target if it ships
 ```
-Enable the Flutter Inspector (DevTools) and the accessibility overlay for label/target checks.
+
+Enable the platform's a11y tooling (Flutter Inspector, axe/Lighthouse, Accessibility Inspector,
+TalkBack) for label/target checks.
 
 ## 2. Capture matrix
 
@@ -43,7 +54,7 @@ For each screen, produce:
 | no-results | ☐ | ☐ | | |
 | overflow (long/‌many) | ☐ | ☐ | ☐ | ☐ |
 
-Web extras: one keyboard-focus capture, one hover capture.
+Web/desktop extras: one keyboard-focus capture, one hover capture.
 
 ## 3. State completeness
 
@@ -62,8 +73,9 @@ Web extras: one keyboard-focus capture, one hover capture.
 - [ ] Keyboard: all interactive elements reachable, logical order, visible focus, `Esc` closes
   overlays.
 - [ ] Screen reader: every icon-only control has a label; images have semantics; headings are
-  marked.
-- [ ] Tap targets ≥ 48dp on Android.
+  marked (Flutter `Semantics`/`tooltip`, web `aria-label`/roles, RN `accessibilityLabel`,
+  SwiftUI `.accessibilityLabel`, Compose `contentDescription`).
+- [ ] Tap targets ≥ 48dp (Material) / ≥ 44pt (Apple).
 - [ ] Text scale 130% and 200%: no clipping/overlap; layouts grow.
 - [ ] Reduce-motion: content present; final states shown.
 - [ ] Color not the sole carrier of meaning.
@@ -98,8 +110,8 @@ The muted ink is the usual failure. Fix the token, not the one widget.
 
 Run `lx-cross-platform`'s checklist in full. Minimum:
 - [ ] 320/600/840/1200/1920 widths, no horizontal overflow.
-- [ ] Keyboard-only pass; hover feedback; real URLs; browser back works (web).
-- [ ] Android system/predictive back handled.
+- [ ] Keyboard-only pass; hover feedback; real URLs; browser back works (web/desktop).
+- [ ] Mobile system back / predictive back handled (Android); edge-swipe (iOS).
 - [ ] No bottom bar on wide windows; no centered phone column on desktop.
 - [ ] Both orientations (unless genuinely impossible).
 
@@ -113,17 +125,32 @@ Run `lx-cross-platform`'s checklist in full. Minimum:
 
 ## 9. Catalog score
 
-Run the `lx-flutter-tells` audit (0–20, lower better). Record the per-section breakdown and the
-P0s. Compare to the previous pass; do not reland a fixed tell.
+Run the matching tell-pack audit (0–20, lower better): `lx-flutter-tells`, `lx-web-tells`,
+`lx-react-native-tells`, `lx-swiftui-tells`, or `lx-compose-tells`. Record the per-section
+breakdown and the P0s. Compare to the previous pass; do not reland a fixed tell.
 
 ## 10. Machine pass
 
 ```powershell
-dart analyze lib          # with lx_slop_lint configured
-pwsh scripts/lx_scan.ps1 -Path lib -MinSeverity P1   # fallback/extra
+# Flutter/Dart (lx_slop_lint configured)
+dart analyze lib/screens/home.dart
+
+# Web / React Native
+npx eslint .
+
+# CSS/SCSS
+npx stylelint "**/*.css"
+
+# SwiftUI / Compose
+swiftlint lint --config lint/swiftui/.swiftlint.yml
+detekt --config lint/compose/detekt.yml
+
+# Fallback (any stack, no toolchain)
+pwsh scripts/lx_scan.ps1 -Path lib -MinSeverity P1
 ```
-Record counts by rule; the top 3 fixes by leverage are usually: the seed, the token file, and
-the state type.
+
+Record counts by rule; the top 3 fixes by leverage are usually: the seed/theme, the token layer,
+and the state type. See `lx-slop-guard` for detector details and caveats.
 
 ## 11. Blind test
 

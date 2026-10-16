@@ -1,7 +1,7 @@
 ---
 name: lx-web-tells
 description: The web-native anti-"AI slop" tell catalog (~65 tells) for React, Next.js, Vue, Svelte, and plain HTML/CSS (including Tailwind and CSS-in-JS). Use when reviewing or writing web UI and asking "why does this look AI-generated / like untouched shadcn / like a Vercel template", when choosing colors, type, spacing, shape, motion, copy, or component states on the web, or when you need the fix for a specific generated-looking pattern (indigo accent, Inter, the 3-card hero→features→testimonials→CTA template, from-purple-500 to-pink-500). Distinct from lx-flutter-tells because web's default-look tells are different. Pairs with lx-obsidian (the process) and lx-slop-guard (the detectors).
-license: MIT
+license: Proprietary
 ---
 
 # The web tell catalog

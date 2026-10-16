@@ -10,5 +10,8 @@
   "peerDependencies": { "stylelint": ">=16.0.0" },
   "devDependencies": { "stylelint": "^16.26.1" },
   "keywords": ["stylelint", "stylelintplugin", "linter", "design", "ui"],
-  "license": "MIT"
+  "author": "LX Obsidian",
+  "license": "SEE LICENSE IN LICENSE",
+  "homepage": "https://github.com/lx-obsidian/lx-obsidian",
+  "repository": "https://github.com/lx-obsidian/lx-obsidian"
 }

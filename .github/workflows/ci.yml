@@ -1,0 +1,83 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  dart-plugin:
+    name: Dart analyzer plugin
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dart-lang/setup-dart@v1
+        with:
+          sdk: stable
+      - name: Resolve
+        working-directory: packages/lx_slop_lint
+        run: dart pub get
+      - name: Analyze
+        working-directory: packages/lx_slop_lint
+        run: dart analyze lib
+      - name: Test
+        working-directory: packages/lx_slop_lint
+        run: dart test
+
+  eslint-plugin:
+    name: ESLint plugin
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Test
+        working-directory: packages/eslint-plugin-lx-slop
+        run: |
+          npm install --no-audit --no-fund
+          npm test
+
+  stylelint-plugin:
+    name: Stylelint plugin
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Test
+        working-directory: packages/stylelint-lx-slop
+        run: |
+          npm install --no-audit --no-fund
+          npm test
+
+  config:
+    name: Config + metadata
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Install PyYAML
+        run: pip install pyyaml
+      - name: Validate lint configs and metadata
+        run: python scripts/check_metadata.py
+
+  scanner-smoke:
+    name: Fallback scanner smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Shell syntax
+        run: bash -n scripts/lx_scan.sh
+      - name: Run scanner on a fixture
+        run: |
+          mkdir -p /tmp/lxfixture/lib
+          printf 'void f() { final c = const Color(0xFF112233); }\n' > /tmp/lxfixture/lib/x.dart
+          bash scripts/lx_scan.sh /tmp/lxfixture || true

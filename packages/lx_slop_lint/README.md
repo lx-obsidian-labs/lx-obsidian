@@ -20,6 +20,7 @@ which is what the Dart 3.13 stable analysis server bundles.
 | `hardcoded_elevation` | P1 | FLS-SH-01/04 | literal `elevation:` / `BoxShadow` blur |
 | `orientation_lock` | P0 | FLS-X-06 | `SystemChrome.setPreferredOrientations` |
 | `linear_motion` | P1 | FLS-MO-02 | `Curves.linear` in UI motion |
+| `hardcoded_duration` | P1 | FLS-MO-03 | magic-number `Duration(...)` |
 | `emoji_icon` | P0 | FLS-CM-06 | emoji used as an icon in `Text` |
 
 Rule names are the **universal** names from `lx-obsidian`'s `slop-taxonomy.md`,

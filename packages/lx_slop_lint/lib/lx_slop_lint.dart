@@ -6,6 +6,7 @@ export 'src/rules/default_theme.dart';
 export 'src/rules/emoji_icon.dart';
 export 'src/rules/framework_color.dart';
 export 'src/rules/hardcoded_color.dart';
+export 'src/rules/hardcoded_duration.dart';
 export 'src/rules/hardcoded_spacing.dart';
 export 'src/rules/hardcoded_elevation.dart';
 export 'src/rules/hardcoded_font_size.dart';

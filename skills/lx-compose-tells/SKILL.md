@@ -1,7 +1,7 @@
 ---
 name: lx-compose-tells
 description: The Jetpack Compose (Kotlin/Android) anti-"AI slop" tell catalog (~65 tells). Use when reviewing or writing Compose UI and asking "why does this look AI-generated / like a default Material 3 app / like the Android Studio New Project template", when choosing colors, type, spacing, shape, elevation, motion, or component states in Compose, or when you need the Kotlin fix for a specific generated-looking pattern (default MaterialTheme, dynamicColor treated as a design, 16.dp everywhere, RoundedCornerShape(8.dp) on everything, Color(0xFF...) literals). Distinct from the Flutter and web packs because Compose's default-look tells are different. Pairs with lx-obsidian (the process) and the detekt ruleset in lint/compose/.
-license: MIT
+license: Proprietary
 ---
 
 # The Jetpack Compose tell catalog

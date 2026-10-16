@@ -1,7 +1,7 @@
 ---
 name: lx-cross-platform
 description: Make one codebase feel native on every platform it targets — mobile, tablet, desktop, and web — without shipping "a phone app in a browser" or "Material on a desktop". Use when a screen must run on more than one width, input modality, or OS; when deciding navigation, controls, input, or layout per platform; or when you need the adaptation decision matrix. Covers Flutter (Android/iOS/web/desktop), Web (React/Next/Vue/Svelte), React Native/Expo (iOS/Android/web), SwiftUI (iPhone/iPad/Mac/visionOS), and Jetpack Compose (phone/tablet/foldable/desktop).
-license: MIT
+license: Proprietary
 ---
 
 # Cross-platform

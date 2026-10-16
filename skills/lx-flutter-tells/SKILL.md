@@ -1,7 +1,7 @@
 ---
 name: lx-flutter-tells
 description: The Flutter-native anti-"AI slop" tell catalog (~75 tells). Use when reviewing or writing Dart UI and asking "why does this look AI-generated / generic / like default Material", when choosing colors, type, spacing, shape, elevation, motion, copy, or component states in Flutter, or when you need the fix for a specific generated-looking pattern. Distinct from web anti-slop lists because Flutter's default-look tells are different. Pairs with lx-obsidian (the process) and lx-slop-guard (the detector).
-license: MIT
+license: Proprietary
 ---
 
 # The Flutter tell catalog

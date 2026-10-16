@@ -21,6 +21,7 @@ void main() {
     defineReflectiveTests(OrientationLockRuleTest);
     defineReflectiveTests(LinearMotionRuleTest);
     defineReflectiveTests(EmojiIconRuleTest);
+    defineReflectiveTests(HardcodedDurationRuleTest);
   });
 }
 
@@ -367,6 +368,43 @@ class Text {
 }
 void f() {
   final t = Text('Add plant');
+}
+''');
+  }
+}
+
+@reflectiveTest
+class HardcodedDurationRuleTest extends AnalysisRuleTest {
+  @override
+  String get analysisRule => 'hardcoded_duration';
+
+  @override
+  void setUp() {
+    Registry.ruleRegistry.registerLintRule(HardcodedDurationRule());
+    super.setUp();
+  }
+
+  void test_milliseconds() async {
+    await assertDiagnostics(
+      r'''
+class Duration {
+  const Duration({int? milliseconds});
+}
+void f() {
+  final d = Duration(milliseconds: 300);
+}
+''',
+      [lint(81, 27)],
+    );
+  }
+
+  void test_tokenOk() async {
+    await assertNoDiagnostics(r'''
+class Duration {
+  const Duration({int? milliseconds});
+}
+void f(int ms) {
+  final d = Duration(milliseconds: ms);
 }
 ''');
   }

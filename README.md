@@ -47,7 +47,7 @@ and **deciding before you decorate**.
 **Claude Code (plugin marketplace)**
 
 ```bash
-/plugin marketplace add <owner>/lx-obsidian
+/plugin marketplace add lx-obsidian/lx-obsidian
 /plugin install lx-obsidian
 /reload-plugins
 ```
@@ -55,9 +55,9 @@ and **deciding before you decorate**.
 **Any agent that reads `SKILL.md`** (Cursor, Codex, VS Code Copilot, opencode, …)
 
 ```bash
-git clone https://github.com/<owner>/lx-obsidian.git ~/.agents/skills/lx-obsidian
+git clone https://github.com/lx-obsidian/lx-obsidian.git ~/.agents/skills/lx-obsidian
 # Claude Code also reads:
-git clone https://github.com/<owner>/lx-obsidian.git ~/.claude/skills/lx-obsidian
+git clone https://github.com/lx-obsidian/lx-obsidian.git ~/.claude/skills/lx-obsidian
 ```
 
 For a single project, clone into `.agents/skills/` or `.claude/skills/` at the repo root.
@@ -144,4 +144,4 @@ scripts/                   lx_scan.sh, lx_scan.ps1 (fallback)
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+Proprietary — All Rights Reserved. Copyright © 2026 LX Obsidian. See [LICENSE](LICENSE).

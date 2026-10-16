@@ -1,7 +1,7 @@
 ---
 name: lx-react-native-tells
 description: The React Native (Expo, including React Native Web) anti-"AI slop" tell catalog (RNX, ~55 tells). Use when reviewing or writing RN/Expo UI and asking "why does this look AI-generated / like a default Expo starter / like a stock React Native app", when choosing color, type, spacing, shape, motion, or component states in RN/TSX, or when you need the React Native-specific fix for a generated-looking pattern. Distinct from web and Flutter anti-slop lists because React Native's default-look tells are different. Pairs with lx-obsidian (the process) and lx-slop-guard (the ESLint detector).
-license: MIT
+license: Proprietary
 ---
 
 # The React Native tell catalog

@@ -57,11 +57,15 @@ const FRAMEWORK_COLORS = new Set([
   "fuchsia",
 ]);
 
+const EMOJI = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{27BF}\u{1F1E6}-\u{1F1FF}\u{1F600}-\u{1F64F}\u{1F680}-\u{1F6FF}\u{2700}-\u{27BF}\u{FE0F}\u{200D}]/u;
+
 const CSS_KEYWORD_COLORS = new Set([
   "red", "blue", "green", "yellow", "orange", "purple", "pink", "brown", "black",
   "white", "gray", "grey", "lime", "cyan", "magenta", "teal", "navy", "maroon",
   "olive", "silver", "aqua", "fuchsia", "rebeccapurple",
 ]);
+
+const REFLEX_FONTS = /\b(Inter|Roboto|Space\s?Grotesk|Geist|Poppins|Montserrat)\b/i;
 
 const HEX = /#([0-9a-fA-F]{3,4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})\b/;
 const RGB_FN = /\b(rgba?|hsla?|hwb|lab|lch|oklab|oklch|color)\(/i;
@@ -148,6 +152,27 @@ const rules = {
       decl.prop === "animation-duration" ||
       decl.prop === "transition" ||
       decl.prop === "animation",
+  },
+  },
+  "reflex-font": {
+    message: "Reflex/system-default font. Use a deliberately chosen typeface.",
+    check(decl) {
+      if (isVarOrToken(decl.value)) return false;
+      return REFLEX_FONTS.test(decl.value);
+    },
+    applies: (decl) => decl.prop === "font-family",
+  },
+  "emoji-icon": {
+    message: "Emoji used as an icon. Use a real icon set.",
+    check(decl) {
+      if (isVarOrToken(decl.value)) return false;
+      const stripped = decl.value.replace(/var\([^)]*\)/g, "");
+      if (EMOJI.test(stripped)) return true;
+      const count = (stripped.match(EMOJI) || []).length;
+      if (count === 0) return false;
+      return count >= stripped.trim().length - (stripped.match(/\s/g) || []).length;
+    },
+    applies: (decl) => decl.prop === "content",
   },
   "linear-motion": {
     message: "Linear/unset easing. Use an ease-out/ease-in/spring token.",

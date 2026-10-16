@@ -5,6 +5,7 @@ import 'src/rules/default_theme.dart';
 import 'src/rules/emoji_icon.dart';
 import 'src/rules/framework_color.dart';
 import 'src/rules/hardcoded_color.dart';
+import 'src/rules/hardcoded_duration.dart';
 import 'src/rules/hardcoded_spacing.dart';
 import 'src/rules/hardcoded_elevation.dart';
 import 'src/rules/hardcoded_font_size.dart';
@@ -32,5 +33,6 @@ class LxSlopPlugin extends Plugin {
     registry.registerWarningRule(OrientationLockRule());
     registry.registerWarningRule(LinearMotionRule());
     registry.registerWarningRule(EmojiIconRule());
+    registry.registerWarningRule(HardcodedDurationRule());
   }
 }

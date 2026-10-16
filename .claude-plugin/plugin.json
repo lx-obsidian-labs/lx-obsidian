@@ -5,9 +5,9 @@
   "author": {
     "name": "LX Obsidian"
   },
-  "homepage": "https://github.com/<owner>/lx-obsidian",
-  "repository": "https://github.com/<owner>/lx-obsidian",
-  "license": "MIT",
+  "homepage": "https://github.com/lx-obsidian/lx-obsidian",
+  "repository": "https://github.com/lx-obsidian/lx-obsidian",
+  "license": "SEE LICENSE IN LICENSE",
   "keywords": [
     "flutter",
     "dart",
