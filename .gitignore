@@ -1,20 +1,38 @@
+# Build / environment
 .codersinflow
 .vscode
 node_modules
 .env
+.env.local
 .venv
+venv
 .codex
 out
 dist
 *.vsix
-.claude
-CLAUDE.md
 .DS_Store
-.git
 *.log
 *.tmp
+
+# Language
 __pycache__
 *.pyc
-.env.local
 .next
+
+# Dart / Flutter
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.g.dart
+*.freezed.dart
+# Library package: do not commit the lock file (commit it for apps)
+packages/lx_slop_lint/pubspec.lock
+
+# Local agent state (do not commit a user's private config)
+.claude/settings.local.json
+.claude
+CLAUDE.md
+.git
 .github

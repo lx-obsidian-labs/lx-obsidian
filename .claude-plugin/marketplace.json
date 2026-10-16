@@ -1,0 +1,18 @@
+{
+  "name": "lx-obsidian",
+  "owner": {
+    "name": "LX Obsidian"
+  },
+  "metadata": {
+    "description": "UI taste for coding agents across Flutter, Web, React Native, SwiftUI, and Jetpack Compose. A framework-agnostic taxonomy plus five tell packs, a cross-surface adaptation ladder, and real static analyzers per stack.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "lx-obsidian",
+      "source": "./",
+      "description": "Agent skills and per-stack detectors that replace framework defaults with deliberate design decisions, so what an agent builds looks commissioned, not generated.",
+      "version": "0.1.0"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+name: lx_slop_lint
+description: >-
+  A Dart analyzer plugin that flags the code-certain "AI slop" UI tells in
+  Flutter/Dart: hardcoded colors and dimensions, reflex seeds, default
+  elevation, portrait locks, linear curves, and emoji-as-icon.
+version: 0.1.0
+repository: https://github.com/lx-obsidian/lx-obsidian
+issue_tracker: https://github.com/lx-obsidian/lx-obsidian/issues
+
+environment:
+  sdk: ^3.10.0
+
+dependencies:
+  analysis_server_plugin: ">=0.3.8 <0.4.0"
+  analyzer: ">=10.0.0 <11.0.0"
+
+dev_dependencies:
+  analyzer_testing: ^0.2.0
+  test: ^1.25.0
+  test_reflective_loader: ^0.6.0

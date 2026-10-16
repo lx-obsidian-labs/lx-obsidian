@@ -1,0 +1,14 @@
+{
+  "name": "eslint-plugin-lx-slop",
+  "version": "0.1.0",
+  "description": "ESLint plugin that flags code-certain AI slop UI tells in JS/TS/JSX/TSX (React, Vue, Svelte, React Native).",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": { ".": "./lib/index.js" },
+  "files": ["lib/"],
+  "scripts": { "test": "node test/hardcoded-color.test.js" },
+  "peerDependencies": { "eslint": ">=9.0.0" },
+  "devDependencies": { "eslint": "^9.39.5" },
+  "keywords": ["eslint", "eslintplugin", "linter", "design", "ui", "react", "react-native"],
+  "license": "MIT"
+}

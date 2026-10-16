@@ -1,0 +1,143 @@
+# lint/swiftui/.swiftlint.yml
+#
+# LX Obsidian — SwiftUI "slop" detector (the ⚙ subset of lx-swiftui-tells).
+#
+# HONESTY NOTE: SwiftLint exposes no AST API for third parties, so every rule below is a
+# REGEX heuristic, not a real syntax-tree check. Expect false positives (design-system
+# token files, chart canvases, intentionally branded palettes) and some false negatives.
+# A finding is a "look here", not a verdict. The gate is regressions vs a committed
+# baseline, not absolute zero. The 👁 tells (copy, layout tension, palette harmony, soul)
+# stay human — see skills/lx-swiftui-tells/references/tells-swiftui.md.
+#
+# Rule names map to the universal rule names in lx-obsidian's slop-taxonomy.md, so findings
+# read the same as Flutter/ESLint/Stylelint/detekt findings across stacks.
+#
+# Run:
+#   swiftlint lint --config lint/swiftui/.swiftlint.yml
+#   swiftlint lint --config lint/swiftui/.swiftlint.yml --reporter json > slop.json   # for CI baselines
+#
+# Suppress an intentional hit (with a short reason):
+#   Color(red: 0.11, green: 0.10, blue: 0.09) // swiftlint:disable:next lx_slop_hardcoded_color — brand token pending migration
+#
+# Token/theme files are excluded wholesale so the design system itself can define raw
+# values without tripping every rule.
+
+excluded:
+  - AppTheme
+  - Assets
+  - Assets.xcassets
+  - Design
+  - DesignSystem
+  - Tokens
+  - Resources
+  - "*Generated"
+  - "*Preview*"
+
+custom_rules:
+  # ---------------------------------------------------------------------------------------------
+  # Color (universal rules: hardcoded_color, framework_color)
+  # ---------------------------------------------------------------------------------------------
+
+  lx_slop_hardcoded_color:
+    # SWS-CO-03 / SWS-CD-01 — raw color components invented in the render path.
+    # Matches Color(red:...) / Color(white:) / Color(hex: literal) — not Color("AssetName").
+    regex: 'Color\((red|white|hex)\s*:'
+    message: >-
+      Hardcoded color literal in view code (SWS-CO-03). Resolve every role from the asset
+      catalog or a Color extension token instead of inventing values per view.
+    severity: error
+    name: lx_slop_hardcoded_color
+
+  lx_slop_framework_color:
+    # SWS-CO-02 — the system palette used as a UI role. Anchored to foregroundStyle/tint/
+    # background/stroke so plain .blue inside unrelated APIs (e.g. .buttonStyle(.borderedProminent))
+    # stays quieter; still heuristic — review each hit.
+    regex: '\.(foregroundStyle|tint|background|stroke|overlay|shadow)\(\s*\.(blue|red|green|orange|purple|pink|yellow|cyan|mint|indigo|teal|gray|white|black)\b'
+    message: >-
+      Framework color literal used as a UI role (SWS-CO-02). Use a semantic token
+      (Color.accent, Color.inkMuted, ...) so the palette stays swappable.
+    severity: error
+    name: lx_slop_framework_color
+
+  # ---------------------------------------------------------------------------------------------
+  # Typography (universal rules: hardcoded_font_size, reflex_font)
+  # ---------------------------------------------------------------------------------------------
+
+  lx_slop_hardcoded_font_size:
+    # SWS-TY-05 / SWS-CD-06 — fixed point sizes bypass Dynamic Type and invent a scale.
+    regex: '\.system\(\s*size:\s*[0-9]'
+    message: >-
+      Hardcoded font size (SWS-TY-05). Fixed point sizes bypass Dynamic Type; use a Font
+      token built on text styles or Font.custom(_:size:relativeTo:).
+    severity: error
+    name: lx_slop_hardcoded_font_size
+
+  lx_slop_reflex_font:
+    # SWS-TY-02 — the known overused generated faces, by name.
+    regex: '\.custom\(\s*"(Inter|Poppins|Space Grotesk|Roboto|Montserrat|Lato|Geist|SF Pro Rounded)"'
+    message: >-
+      Reflex "tasteful" font by name (SWS-TY-02). Inter/Poppins/Space Grotesk are the known
+      generated faces; pick a face nobody in the category uses, with a stated reason.
+    severity: warning
+    name: lx_slop_reflex_font
+
+  # ---------------------------------------------------------------------------------------------
+  # Space, shape, elevation (universal rules: hardcoded_spacing, hardcoded_radius,
+  # hardcoded_elevation)
+  # ---------------------------------------------------------------------------------------------
+
+  lx_slop_hardcoded_spacing:
+    # SWS-SH-02 / SWS-SH-05 — magic-number spacing. Matches .padding(<digits>) and
+    # .padding(.horizontal/.vertical, <digits>) — bare .padding() is fine.
+    regex: '\.padding\(\s*(\.[a-zA-Z]+\s*,\s*)?[0-9]'
+    message: >-
+      Magic-number spacing (SWS-SH-02). Reference a spacing token from one named scale
+      (base 4 or 8) by role, not a literal.
+    severity: error
+    name: lx_slop_hardcoded_spacing
+
+  lx_slop_hardcoded_radius:
+    # SWS-SH-01 / SWS-SH-03 — one numeric corner radius wherever shape is defined.
+    regex: '(cornerRadius:\s*[0-9]|RoundedRectangle\(\s*cornerRadius:\s*[0-9])'
+    message: >-
+      Hardcoded corner radius (SWS-SH-01/03). Use a radius ladder (control / surface /
+      pill) applied by role, not a literal under every surface.
+    severity: warning
+    name: lx_slop_hardcoded_radius
+
+  lx_slop_hardcoded_elevation:
+    # SWS-SH-01 / SWS-SH-04 — the soft-shadow kit: numeric radius/offset shadow on surfaces.
+    regex: '\.shadow\(\s*(color:.*,\s*)?(radius|y|x):\s*[0-9]'
+    message: >-
+      Hardcoded shadow/elevation (SWS-SH-01/04). Reserve shadow for real layering (sheets,
+      menus, floating elements); flat content gets borders or tonal surfaces. Encode any
+      ladder in tokens.
+    severity: warning
+    name: lx_slop_hardcoded_elevation
+
+  # ---------------------------------------------------------------------------------------------
+  # Components (universal rule: emoji_icon)
+  # ---------------------------------------------------------------------------------------------
+
+  lx_slop_emoji_icon:
+    # SWS-CM-05 — emoji-only string literals, the classic icon stand-in.
+    regex: '(Text|Label|Image)\(\s*"[^"]*[\x{1F300}-\x{1FAFF}\x{2600}-\x{27BF}\x{2B00}-\x{2BFF}\x{FE0F}][^"]*"'
+    message: >-
+      Emoji used where an icon belongs (SWS-CM-05). Use an SF Symbol set with consistent
+      weight, or nothing; reserve emoji for copy where the product's voice uses them.
+    severity: warning
+    name: lx_slop_emoji_icon
+
+  # ---------------------------------------------------------------------------------------------
+  # Platform honesty (universal rule: orientation_lock)
+  # ---------------------------------------------------------------------------------------------
+
+  lx_slop_orientation_lock:
+    # SWS-X-04 — forcing one orientation via Info.plist keys checked in code, or the
+    # UIKit-era supportedInterfaceOrientations override leaking into SwiftUI apps.
+    regex: '(supportedInterfaceOrientations|UISupportedInterfaceOrientations|requestGeometryUpdate|orientationLock)'
+    message: >-
+      Orientation lock detected (SWS-X-04). Support both orientations unless truly
+      impossible; if locked, justify it in code review.
+    severity: warning
+    name: lx_slop_orientation_lock

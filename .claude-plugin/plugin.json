@@ -1,0 +1,30 @@
+{
+  "name": "lx-obsidian",
+  "description": "UI taste for coding agents across Flutter, Web, React Native, SwiftUI, and Jetpack Compose. A framework-agnostic taxonomy plus five tell packs, a cross-surface adaptation ladder, and real static analyzers per stack.",
+  "version": "0.1.0",
+  "author": {
+    "name": "LX Obsidian"
+  },
+  "homepage": "https://github.com/<owner>/lx-obsidian",
+  "repository": "https://github.com/<owner>/lx-obsidian",
+  "license": "MIT",
+  "keywords": [
+    "flutter",
+    "dart",
+    "web",
+    "react",
+    "nextjs",
+    "vue",
+    "svelte",
+    "react-native",
+    "expo",
+    "swiftui",
+    "jetpack-compose",
+    "material-3",
+    "design-system",
+    "anti-ai-slop",
+    "ui",
+    "ux",
+    "cross-platform"
+  ]
+}

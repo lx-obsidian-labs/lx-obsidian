@@ -1,0 +1,181 @@
+# detekt.yml — LX Obsidian · Jetpack Compose "slop" profile
+#
+# Companion to skills/lx-compose-tells (tell catalog: references/tells-compose.md).
+# Enables the relevant *built-in* detekt rules that catch the ⚙ subset, and documents
+# the custom lxSlop: rules (universal rule names from lx-obsidian's slop-taxonomy.md).
+#
+# Usage (app module):
+#   detekt {
+#     config.setFrom(files("lint/compose/detekt.yml"))
+#     buildUponDefaultConfig = true
+#   }
+# See lint/compose/README.md — including the honest status of the custom ruleset.
+
+build:
+  maxIssues: 0
+  excludeCorrectable: false
+  weights:
+    complexity: 2
+    formatting: 1
+    LongMethod: 1
+
+config:
+  # The custom lxSlop: section below is not detekt-core schema. Keep validation
+  # tolerant (or warningsAsErrors: false) until the lx_slop ruleset jar is on the
+  # classpath; detekt will warn about the unknown section and ignore it.
+  validation: true
+  warningsAsErrors: false
+  excludes:
+    - '**/build/**'
+    - '**/generated/**'
+    - '**/resources/**'
+
+processors:
+  active: true
+  excludeCorrectable: false
+
+# ---------------------------------------------------------------------------
+# Built-in rules that approximate the ⚙ tells today (no custom jar needed).
+# Annotated composables and previews are excluded where they would flood.
+# ---------------------------------------------------------------------------
+style:
+  MagicNumber:
+    active: true
+    ignoreNumbers: ['0', '1', '-1', '2']
+    ignoreHashCodeFunction: true
+    ignoreExtensionFunctions: true
+    ignorePropertyDeclaration: false
+    ignoreCompanionObjectPropertyDeclaration: true
+    ignoreAnnotation: false
+    ignoreNamedArgument: true
+    ignoreEnums: true
+    ignoreRanges: true
+    ignoreAnnotated: ['Preview', 'Composable']   # literals in @Preview demos are fine
+  MaxLineLength:
+    active: true
+    maxLineLength: 120
+    excludePackageNames: ['di', 'di.modules']
+  ForbiddenComment:
+    active: true
+    commentPatterns: ['TODO:', 'FIXME:', 'HACK:']
+  UnusedPrivateMember:
+    active: true
+    allowedNames: '(_|ignored|expected).*'
+    ignoreAnnotated: ['Preview', 'Composable']
+  ReturnCount:
+    active: true
+    max: 3
+    excludeGuardClauses: true
+
+complexity:
+  LongMethod:
+    active: true
+    threshold: 60
+    ignoreAnnotated: ['Preview', 'Composable']   # screens legitimately compose many calls
+  LongParameterList:
+    active: true
+    functionThreshold: 8
+    constructorThreshold: 8
+    ignoreDefaultParameters: true
+    ignoreAnnotated: ['Preview', 'Composable']
+  CyclomaticComplexMethod:
+    active: true
+    threshold: 15
+    ignoreAnnotated: ['Preview']
+  TooManyFunctions:
+    active: true
+    thresholdInClasses: 20
+    thresholdInObjects: 20
+    ignoreDeprecated: true
+    ignorePrivate: true
+
+naming:
+  FunctionNaming:
+    active: true
+    ignoreAnnotated: ['Composable']   # composable functions are PascalCase by convention
+  VariableNaming:
+    active: true
+    ignoreAnnotated: ['Composable']
+
+empty-blocks:
+  active: true
+
+# ---------------------------------------------------------------------------
+# lxSlop — LX Obsidian custom rules (NOT part of detekt core).
+#
+# These implement the ⚙ subset of the CMP tell catalog using the universal rule
+# names from skills/lx-obsidian/references/slop-taxonomy.md, so a finding reads
+# the same across Dart/JS/Swift/Kotlin stacks. They only run when the accompanying
+# ruleset jar (lint/compose/lx-slop-ruleset — see README.md) is on the detekt
+# classpath; without it detekt ignores this section. Severity maps to the catalog:
+# P0 = stranger notices in one glance, P1 = designer notices, P2 = polish.
+# Suppression: // detekt-suppress <RuleClass>  (e.g. LxSlopHardcodedColor)
+# ---------------------------------------------------------------------------
+lxSlop:
+  active: true
+
+  hardcoded_color:                 # CMP-CO-02, CMP-CD-01
+    active: true
+    severity: P0
+    matches: 'Color(0x…), Color.fromARGB(…), Color.fromRGBO(…) outside theme/token files'
+    fix: 'Resolve from MaterialTheme.colorScheme or a token object'
+
+  framework_color:                 # CMP-CO-03
+    active: true
+    severity: P0
+    matches: 'Color.Blue / Color.Gray / Color.Red / Color.Green used for a UI role (Color.Transparent allowed)'
+    fix: 'Use semantic colorScheme roles or tokens'
+
+  default_theme:                   # CMP-CO-01
+    active: true
+    severity: P0
+    matches: 'MaterialTheme(colorScheme = dynamicColorScheme(…)) as the app shell, or the New Project lightColorScheme(purple40/purpleGrey40) shipped as the palette'
+    fix: 'Author a scheme from the subject; treat dynamic color as a user preference, not a design'
+
+  hardcoded_spacing:               # CMP-SH-01, CMP-SH-05
+    active: true
+    severity: P0
+    matches: 'Bare dp literals in padding/size/spacedBy outside token definitions'
+    fix: 'One named spacing scale, referenced by role'
+
+  hardcoded_radius:                # CMP-SH-02
+    active: true
+    severity: P1
+    matches: 'RoundedCornerShape(n.dp) / RoundedCornerShape(percent = n) literals in render path'
+    fix: 'A radius ladder applied by role (control / surface / pill)'
+
+  hardcoded_font_size:             # CMP-TY-04
+    active: true
+    severity: P0
+    matches: 'fontSize = n.sp (or n.dp — itself a bug, see CMP-TY-07) in inline TextStyles'
+    fix: 'Resolve from MaterialTheme.typography / the type scale'
+
+  hardcoded_elevation:             # CMP-SH-03, CMP-SH-04
+    active: true
+    severity: P1
+    matches: 'elevation = n.dp / Modifier.shadow(n.dp) / shadowElevation literals'
+    fix: 'An elevation ladder, or tonal surfaces + hairline borders'
+
+  reflex_font:                     # CMP-TY-02
+    active: true
+    severity: P1
+    matches: 'FontFamily resources named inter / space_grotesk / geist / poppins …'
+    fix: 'A face nobody in the category uses, plus a plain workhorse, with a stated reason'
+
+  emoji_icon:                      # CMP-CM-05
+    active: true
+    severity: P0
+    matches: "Text(\"…\") whose string is emoji-only, used where an Icon belongs"
+    fix: 'Material Icons (or one monoline set) with contentDescription'
+
+  linear_motion:                   # CMP-MO-01, CMP-MO-05
+    active: true
+    severity: P1
+    matches: 'LinearEasing in UI motion; tween(durationMillis) literals with no shared motion token'
+    fix: 'Ease-out in, ease-in out, springs for settle; durations as tokens'
+
+  orientation_lock:                # CMP-X-04
+    active: true
+    severity: P0
+    matches: 'requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT (manifest android:screenOrientation checked by the scanner, not the AST rule)'
+    fix: 'Support both orientations unless truly impossible'

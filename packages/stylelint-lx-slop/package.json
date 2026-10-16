@@ -1,0 +1,14 @@
+{
+  "name": "stylelint-lx-slop",
+  "version": "0.1.0",
+  "description": "Stylelint plugin that flags code-certain AI slop UI tells in CSS/SCSS/PostCSS.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": { ".": "./lib/index.js" },
+  "files": ["lib/"],
+  "scripts": { "test": "node test/basic.test.js" },
+  "peerDependencies": { "stylelint": ">=16.0.0" },
+  "devDependencies": { "stylelint": "^16.26.1" },
+  "keywords": ["stylelint", "stylelintplugin", "linter", "design", "ui"],
+  "license": "MIT"
+}
